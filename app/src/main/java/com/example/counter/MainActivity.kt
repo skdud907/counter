@@ -12,26 +12,14 @@ import com.example.counter.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel>()
 
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
-        binding.counterText.text = "${viewModel.count}"
-
-        viewModel.countLiveData.observe(this) {
-            binding.counterText.text = "$it"
-        }
-
-        binding.addButton.setOnClickListener {
-            viewModel.increaseCount()
-        }
-
-        binding.minusButton.setOnClickListener {
-            viewModel.decreaseCount()
-        }
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
