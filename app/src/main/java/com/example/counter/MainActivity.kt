@@ -1,11 +1,8 @@
 package com.example.counter
 
-import android.app.Activity
-import android.app.Application
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
@@ -24,14 +21,16 @@ class MainActivity : AppCompatActivity() {
 
         binding.counterText.text = "${viewModel.count}"
 
+        viewModel.countLiveData.observe(this) {
+            binding.counterText.text = "$it"
+        }
+
         binding.addButton.setOnClickListener {
-            viewModel.count++
-            binding.counterText.text = "${viewModel.count}"
+            viewModel.increaseCount()
         }
 
         binding.minusButton.setOnClickListener {
-            viewModel.count--
-            binding.counterText.text = "${viewModel.count}"
+            viewModel.decreaseCount()
         }
     }
 
